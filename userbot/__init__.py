@@ -81,6 +81,9 @@ OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
 
 SUDO = os.environ.get("SUDO", None)
 
+WELCOME_MUTE = sb(os.environ.get("WELCOME_MUTE", None))
+
+
 bot = TelegramClient(StringSession(STRING_SESSION), API_KEY, API_HASH)
 
 YOUTUBE_API_KEY = os.environ.get(
