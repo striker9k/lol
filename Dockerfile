@@ -59,8 +59,6 @@ WORKDIR /home/userbot/userbot
 #
 #Copies session and config(if it exists)
 #
-COPY ./userbot.session ./config.env* /home/userbot/userbot/
-#
 # Install requirements
 #
 RUN sudo pip3 install -U pip
