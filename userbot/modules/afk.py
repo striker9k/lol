@@ -9,7 +9,7 @@ import time
 
 from telethon.events import StopPropagation
 
-from userbot import (AFKREASON, COUNT_MSG, LOGGER, LOGGER_GROUP, USERS, HELPER)
+from userbot import (AFKREASON, COUNT_MSG, ISAFK, LOGGER, LOGGER_GROUP, USERS, HELPER)
 from userbot.events import register
 
 
@@ -23,21 +23,17 @@ async def mention_afk(mention):
         if ISAFK:
             if mention.sender_id not in USERS:
                 await mention.reply(
-                    "SORRY, MY BOSS IS AFAIK. \n "
-                    + "I WILL PING HIM WHEN HE COMES ONLINE. \n "
-                    "REASON - "
-                    + AFKREASON
+                    f"Sorry! My boss is AFK due to `{AFKREASON}`."
+                    "\nWould ping him to look into the message soon 😉."
                 )
                 USERS.update({mention.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
             elif mention.sender_id in USERS:
                 if USERS[mention.sender_id] % 5 == 0:
                     await mention.reply(
-                        "Sorry! But my boss is still not here. "
-                        "Try to ping him a little later. I am sorry."
-                        "He told me he was busy with ```"
-                        + AFKREASON
-                        + "```"
+                        "Sorry! But my boss is still not here."
+                        "\nTry to ping him a little later. I am sorry 😖."
+                        f"\nHe told me he was busy with `{AFKREASON}`."
                     )
                     USERS[mention.sender_id] = USERS[mention.sender_id] + 1
                     COUNT_MSG = COUNT_MSG + 1
@@ -56,21 +52,17 @@ async def afk_on_pm(sender):
         if ISAFK:
             if sender.sender_id not in USERS:
                 await sender.reply(
-                    "SORRY, MY BOSS IS AFAIK. \n "
-                    + "I WILL PING HIM WHEN HE COMES ONLINE.\n "
-                    "REASON - "
-                    + AFKREASON
+                    f"Sorry! My boss is AFK due to `{AFKREASON}`."
+                    "\nI'll ping him to look into the message soon 😉."
                 )
                 USERS.update({sender.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
             elif sender.sender_id in USERS:
                 if USERS[sender.sender_id] % 5 == 0:
                     await sender.reply(
-                        "Sorry! But my boss is still not here. "
-                        "Try to ping him a little later. I am sorry."
-                        "He told me he was busy with ```"
-                        + AFKREASON
-                        + "```"
+                        "Sorry! But my boss is still not here."
+                        "\nTry to ping him a little later. I am sorry 😖."
+                        f"\nHe told me he was busy with `{AFKREASON}`."
                     )
                     USERS[sender.sender_id] = USERS[sender.sender_id] + 1
                     COUNT_MSG = COUNT_MSG + 1
@@ -110,7 +102,7 @@ async def type_afk_is_not_true(notafk):
             "`You recieved "
             + str(COUNT_MSG)
             + " messages while you were away. Check log for more details.`"
-            + "`This auto-generated message shall be self destructed in 2 seconds.`"
+            + " `This auto-generated message shall be self destructed in 2 seconds.`"
         )
         time.sleep(2)
         await afk_info.delete()
@@ -143,6 +135,8 @@ async def type_afk_is_not_true(notafk):
         AFKREASON = "No Reason"
 
 HELPER.update({
-    "afk": "Usage: \nSets you as afk. Responds to anyone who tags/PM's \
-            you telling that you are afk. Switches off AFK when you type back anything."
+    "afk": ".afk <reason>(reason is optional)\
+\nUsage: Sets you as afk. Responds to anyone who tags/PM's \
+you telling that you are afk. Switches off AFK when you type back anything.\
+"
 })
