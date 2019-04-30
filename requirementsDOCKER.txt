@@ -22,3 +22,4 @@ wikipedia>=1.4.0
 zalgo_text>=0.6
 spotify_token
 lmgtfy
+pyfiglet
