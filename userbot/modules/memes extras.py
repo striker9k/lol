@@ -177,6 +177,16 @@ async def _(event):
 		await event.edit("".join(deq))
 		deq.rotate(1)
 
+@register(outgoing=True, pattern="^.heart")
+async def _(event):
+	if event.fwd_from:
+		return
+	deq = deque(list("🖤💜💙❤💚💛🧡 "))
+	for _ in range(30):
+		await asyncio.sleep(0.0)
+		await event.edit("".join(deq))
+		deq.rotate(1)
+
 @register(outgoing=True, pattern="^.clock")
 async def _(event):
 	if event.fwd_from:
