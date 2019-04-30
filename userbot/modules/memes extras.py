@@ -17,7 +17,7 @@ from telethon import TelegramClient, events
 from telethon.tl.functions.channels import LeaveChannelRequest
 from collections import deque
 
-from pyfiglet import Figlet
+from pyfiglet import figlet
 
 from userbot import LOGGER, LOGGER_GROUP, HELPER, bot
 from userbot.events import register
