@@ -183,7 +183,7 @@ async def _(event):
 		return
 	deq = deque(list("🖤💜💙❤💚💛🧡 "))
 	for _ in range(30):
-		await asyncio.sleep(0.0)
+		await asyncio.sleep(0.1)
 		await event.edit("".join(deq))
 		deq.rotate(1)
 
