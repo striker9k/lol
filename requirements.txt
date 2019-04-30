@@ -27,3 +27,9 @@ urbandict>=0.5
 wikipedia>=1.4.0
 zalgo_text>=0.6
 spotify_token
+urbandict>=0.5
+pyfiglet
+wikipedia>=1.4.0
+cowsay
+lxml
+lmgtfy
