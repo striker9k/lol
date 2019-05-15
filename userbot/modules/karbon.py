@@ -8,6 +8,7 @@ import requests
 
 @register(outgoing=True, pattern="^.kod (.*)")
 async def _(event):
+	await event.edit("Processing...")
     if event.fwd_from:
         return
     textx = await event.get_reply_message()
