@@ -58,7 +58,7 @@ LOGGER_GROUP = int(os.environ.get("LOGGER_GROUP", "0"))
 
 LOGGER = sb(os.environ.get(
     "LOGGER", "False"
-))
+))  # Incase you want to turn off logging, put this to false
 
 PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "False"))
 
@@ -76,9 +76,7 @@ OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
 
 SUDO = os.environ.get("SUDO", None)
 
-WELCOME_MUTE = sb(os.environ.get(
-    "WELCOME_MUTE", "False"
-))
+WELCOME_MUTE = sb(os.environ.get("WELCOME_MUTE", None))
 
 YOUTUBE_API_KEY = os.environ.get(
     "YOUTUBE_API_KEY", None
@@ -98,9 +96,10 @@ else:
     LOGS.info("Braincheck file does not exist, fetching...")
 
 URL = 'https://raw.githubusercontent.com/RaphielGang/databasescape/master/learning-data-root.check'
+GET = get(URL)
 
 with open('learning-data-root.check', 'wb') as load:
-    load.write(get(URL).content)
+    load.write(GET.content)
 
 # Global Variables
 SNIPE_TEXT = ""

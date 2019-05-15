@@ -12,14 +12,14 @@ from sys import argv
 from userbot import BRAIN_CHECKER, LOGS, bot
 from userbot.modules import ALL_MODULES
 
-DB = connect("learning-data-root.check")
-CURSOR = DB.cursor()
-CURSOR.execute("""SELECT * FROM BRAIN1""")
-ALL_ROWS = CURSOR.fetchall()
+db = connect("learning-data-root.check")
+cursor = db.cursor()
+cursor.execute("""SELECT * FROM BRAIN1""")
+all_rows = cursor.fetchall()
 
-for i in ALL_ROWS:
+for i in all_rows:
     BRAIN_CHECKER.append(i[0])
-connect("learning-data-root.check").close()
+db.close()
 bot.start()
 
 for module_name in ALL_MODULES:
