@@ -22,7 +22,7 @@ async def carbon_api(e):
  if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
    """ A Wrapper for carbon.now.sh """
    await e.edit("Processing...")
-   CARBON = 'https://carbon.now.sh/?l=python&code={code}'
+   CARBON = 'https://carbon.now.sh/?bg=rgba(16%2C51%2C92%2C1)&t=night-owl&wt=sharp&l=auto&ds=true&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=146px&ph=56px&ln=false&fm=Droid%20Sans%20Mono&fs=15px&lh=213%25&si=false&es=2x&wm=false'
    textx = await e.get_reply_message()
    pcode = e.text
    if pcode[8:]:
@@ -43,7 +43,7 @@ async def carbon_api(e):
 
    driver = webdriver.Chrome(options=chrome_options)
    driver.get(url)
-   download_path = '/home/Telegram-UserBot/'
+   download_path = '/home/userbot/userbot/'
    driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
    params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_path}}
    command_result = driver.execute("send_command", params)
