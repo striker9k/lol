@@ -51,7 +51,7 @@ async def img_sampler(e):
 
         # passing the arguments to the function
         paths = response.download(arguments)
-        lst = paths[s]
+        lst = paths(s)
         await e.client.send_file(await e.client.get_input_entity(e.chat_id), lst)
         await e.delete()
 
