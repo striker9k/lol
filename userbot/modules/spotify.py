@@ -33,7 +33,6 @@ OLDEXCEPT = False
 PARSE = False
 # ================================================
 
-
 async def get_spotify_token():
     sptoken = st.start_session(USERNAME, PASSWORD)
     access_token = sptoken[0]
@@ -129,12 +128,12 @@ async def set_biodgraph(setdbio):
 
 HELPER.update(
     {
-        "enablespotify": "Usage: Enable spotify bio updating"
+        "enablespotify" : "Usage: Enable spotify bio updating"
     }
 )
 
 HELPER.update(
     {
-        "disablespotify": "Usage: Disable spotify bio updating"
+        "disablespotify" : "Usage: Disable spotify bio updating"
     }
 )

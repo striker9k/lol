@@ -9,7 +9,6 @@
 from userbot import HELPER
 from userbot.events import register
 
-
 @register(outgoing=True, pattern="^.help(?: |$)(.*)")
 async def helper(event):
     """ For .help command,"""
