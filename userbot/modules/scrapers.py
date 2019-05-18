@@ -30,16 +30,17 @@ langi = "en"
 
 @register(outgoing=True, pattern="^.img (.*)")
 async def img_sampler(event):
+    """ For .img command, search and return images matching the query. """
     if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
         await event.edit("Processing...")
-        querry = even.pattern_match.group(1)
+        query = event.pattern_match.group(1)
         lim = findall(r"lim=\d+", query)
         try:
             lim = lim[0]
             lim = lim.replace("lim=", "")
             query = query.replace("lim=" + lim[0], "")
-  except IndexError:
-            lim = 3
+        except IndexError:
+            lim = 2
         response = google_images_download.googleimagesdownload()
 
         # creating list of arguments
@@ -57,7 +58,7 @@ async def img_sampler(event):
         os.remove(lst[0])
         os.remove(lst[1])
         os.rmdir(os.path.dirname(os.path.abspath(lst[0])))
-        await event.delete()
+await event.delete()
 
 
 @register(outgoing=True, pattern=r"^.google (.*)")
