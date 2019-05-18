@@ -51,9 +51,12 @@ async def img_sampler(e):
 
         # passing the arguments to the function
         paths = response.download(arguments)
-        lst = paths[s]
-        await e.client.send_file(await e.client.get_input_entity(e.chat_id), lst)
-        await e.delete()
+        lst = paths[0][query]
+        await event.client.send_file(await event.client.get_input_entity(event.chat_id), lst)
+        os.remove(lst[0])
+        os.remove(lst[1])
+        os.rmdir(os.path.dirname(os.path.abspath(lst[0])))
+        await event.delete()
 
 
 @register(outgoing=True, pattern=r"^.google (.*)")
