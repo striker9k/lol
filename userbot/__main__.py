@@ -7,20 +7,30 @@
 
 from importlib import import_module
 from sqlite3 import connect
-from sys import argv
+from sys import argv, exit
 
+from telethon.errors.rpcerrorlist import PhoneNumberInvalidError
 from userbot import BRAIN_CHECKER, LOGS, bot
 from userbot.modules import ALL_MODULES
 
-db = connect("learning-data-root.check")
-cursor = db.cursor()
-cursor.execute("""SELECT * FROM BRAIN1""")
-all_rows = cursor.fetchall()
+DB = connect("learning-data-root.check")
+CURSOR = DB.cursor()
+CURSOR.execute("""SELECT * FROM BRAIN1""")
+ALL_ROWS = CURSOR.fetchall()
+INVALID_PH = '\nERROR: The Phone No. entered is INVALID' \
+             '\n  Tip: Use Country Code along with No.' \
+             '\n       Recheck your Phone Number'
 
 for i in all_rows:
     BRAIN_CHECKER.append(i[0])
 db.close()
 bot.start()
+connect("learning-data-root.check").close()
+try:
+    bot.start()
+except PhoneNumberInvalidError:
+    print(INVALID_PH)
+    exit(1)
 
 for module_name in ALL_MODULES:
     imported_module = import_module("userbot.modules." + module_name)
