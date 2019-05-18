@@ -29,24 +29,25 @@ langi = "en"
 
 
 @register(outgoing=True, pattern="^.img (.*)")
-async def img_sampler(e):
+async def img_sampler(event):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         await e.edit("Processing...")
-        s = e.pattern_match.group(1)
-        lim = re.findall(r"lim=\d+", s)
+        querry = e.pattern_match.group(1)
+        lim = re.findall(r"lim=\d+", querry)
         try:
             lim = lim[0]
             lim = lim.replace("lim=", "")
             s = s.replace("lim=" + lim[0], "")
         except IndexError:
-            lim = 2
+            lim = 3
         response = google_images_download.googleimagesdownload()
 
         # creating list of arguments
         arguments = {
-            "keywords": s,
+            "keywords": query,
             "limit": lim,
             "format": "jpg",
+            "no_directory": "no_directory"
         }
 
         # passing the arguments to the function
