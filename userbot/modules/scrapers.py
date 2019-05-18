@@ -30,15 +30,15 @@ langi = "en"
 
 @register(outgoing=True, pattern="^.img (.*)")
 async def img_sampler(event):
-    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("Processing...")
-        querry = e.pattern_match.group(1)
-        lim = re.findall(r"lim=\d+", querry)
+    if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
+        await event.edit("Processing...")
+        querry = even.pattern_match.group(1)
+        lim = findall(r"lim=\d+", query)
         try:
             lim = lim[0]
             lim = lim.replace("lim=", "")
-            s = s.replace("lim=" + lim[0], "")
-        except IndexError:
+            query = query.replace("lim=" + lim[0], "")
+  except IndexError:
             lim = 3
         response = google_images_download.googleimagesdownload()
 
