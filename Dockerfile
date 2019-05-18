@@ -62,7 +62,7 @@ WORKDIR /home/userbot/userbot
 # Install requirements
 #
 RUN sudo pip3 install -U pip
-RUN sudo pip3 install -r requirementsDOCKER.txt
+RUN sudo pip3 install -r requirementsDock.txt
 RUN sudo chown -R userbot /home/userbot/userbot
 RUN sudo chmod -R 777 /home/userbot/userbot
 CMD ["python3","-m","userbot"]
