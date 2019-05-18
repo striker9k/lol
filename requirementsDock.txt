@@ -28,6 +28,7 @@ google-auth-oauthlib
 lmgtfy
 incremental
 emoji
+gitpython
 language_check
 pytube
 dnspython
