@@ -23,7 +23,7 @@ async def mention_afk(mention):
         if ISAFK:
             if mention.sender_id not in USERS:
                 await mention.reply(
-                    f"SORRY, MY BOSS IS AFAIK. \n\n "
+                    f"SORRY, MY BOSS IS OFFLINE. \n\n "
                     + "I WILL PING HIM WHEN HE COMES ONLINE. \n\n "
                     "REASON - "
                     + AFKREASON
@@ -54,7 +54,7 @@ async def afk_on_pm(sender):
         if ISAFK:
             if sender.sender_id not in USERS:
                 await sender.reply(
-                    f"SORRY, MY BOSS IS AFAIK. \n\n "
+                    f"SORRY, MY BOSS IS OFFLINE. \n\n "
                     + "I WILL PING HIM WHEN HE COMES ONLINE. \n\n "
                     "REASON - "
                     + AFKREASON
