@@ -101,12 +101,12 @@ async def fetch_info(replied_user, event):
         photo = "https://thumbs.dreamstime.com/b/no-user-profile-picture-24185395.jpg"
 
     first_name = first_name.replace("\u2060", "") if first_name else (
-        "This User has no First Name")
+        "This Bitch has no First Name")
     last_name = last_name.replace("\u2060", "") if last_name else (
-        "This User has no Last Name")
+        "This Bitch has no Last Name")
     username = "@{}".format(username) if username else (
-        "This User has no Username")
-    user_bio = "This User has no About" if not user_bio else user_bio
+        "This Bitch has no Username")
+    user_bio = "This Bitch has no About" if not user_bio else user_bio
 
     caption = "<b>USER INFO:</b> \n"
     caption += f"First Name: {first_name} \n"
