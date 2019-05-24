@@ -21,6 +21,7 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                MessageMediaPhoto)
 
 
+from userbot import BOTLOG, BOTLOG_CHATID, BRAIN_CHECKER, CMD_HELP, bot
 from userbot.events import register
 
 # =================== CONSTANT ===================
