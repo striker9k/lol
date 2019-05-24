@@ -9,9 +9,9 @@
 from telethon.tl.functions.contacts import BlockRequest, UnblockRequest
 from telethon.tl.functions.messages import ReportSpamRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from sqlalchemy.exc import IntegrityError 
+from sqlalchemy.exc import IntegrityError
 
-from userbot import (COUNT_PM, HELPER, LOGGER, LOGGER_GROUP, NOTIF_OFF,
+from userbot import (COUNT_PM, HELPER, LOGGER, LOGGER_GROUP,
                      PM_AUTO_BAN, BRAIN_CHECKER, LASTMSG, LOGS)
 from userbot.events import register
 
@@ -23,7 +23,7 @@ UNAPPROVED_MSG = ("Bleep blop! This is a bot. Don't fret.\n\n"
 # =================================================================
 
 
-@register(incoming=True)
+@register(incoming=True, disable_edited=True)
 async def permitpm(event):
     """ Permits people from PMing you without approval. \
         Will block retarded nibbas automatically. """
@@ -33,9 +33,11 @@ async def permitpm(event):
         if event.is_private and not (await event.get_sender()).bot:
             try:
                 from userbot.modules.sql_helper.pm_permit_sql import is_approved
+                from userbot.modules.sql_helper.globals import gvarstatus
             except AttributeError:
                 return
             apprv = is_approved(event.chat_id)
+            NOTIF_OFF = gvarstatus("NOTIF_OFF")
 
             # This part basically is a sanity check
             # If the message that sent before is Unapproved Message
@@ -69,6 +71,11 @@ async def permitpm(event):
                         del COUNT_PM[event.chat_id]
                         del LASTMSG[event.chat_id]
                     except KeyError:
+                        if LOGGER:
+                             await event.client.send_message(
+                              LOGGER_GROUP,
+                              "Count PM is seemingly going retard, plis restart bot!",
+                              )
                         LOGS.info("CountPM wen't rarted boi")
                         return
 
@@ -92,17 +99,25 @@ async def permitpm(event):
 @register(outgoing=True, pattern="^.notifoff$")
 async def notifoff(noff_event):
     """ For .notifoff command, stop getting notifications from unapproved PMs. """
-    global NOTIF_OFF
-    NOTIF_OFF = True
-    await noff_event.edit("`Notifications silenced!`")
+    if not noff_event.text[0].isalpha() and noff_event.text[0] not in ("/", "#", "@", "!"):
+        try:
+            from userbot.modules.sql_helper.globals import addgvar
+        except AttributeError:
+            return
+        addgvar("NOTIF_OFF", True)
+        await noff_event.edit("`Notifications silenced!`")
 
 
 @register(outgoing=True, pattern="^.notifon$")
 async def notifon(non_event):
     """ For .notifoff command, get notifications from unapproved PMs. """
-    global NOTIF_OFF
-    NOTIF_OFF = False
-    await non_event.edit("`Notifications unmuted!`")
+    if not non_event.text[0].isalpha() and non_event.text[0] not in ("/", "#", "@", "!"):
+        try:
+            from userbot.modules.sql_helper.globals import delgvar
+        except AttributeError:
+            return
+        delgvar("NOTIF_OFF")
+        await non_event.edit("`Notifications unmuted!`")
 
 
 @register(outgoing=True, pattern="^.approve$")

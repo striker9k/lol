@@ -21,10 +21,8 @@ INVALID_PH = '\nERROR: The Phone No. entered is INVALID' \
              '\n  Tip: Use Country Code along with No.' \
              '\n       Recheck your Phone Number'
 
-for i in all_rows:
+for i in ALL_ROWS:
     BRAIN_CHECKER.append(i[0])
-db.close()
-bot.start()
 connect("learning-data-root.check").close()
 try:
     bot.start()

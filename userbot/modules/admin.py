@@ -17,6 +17,9 @@ from telethon.tl.functions.channels import (EditAdminRequest,
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto)
+from asyncio import sleep
+
+from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 
@@ -101,6 +104,7 @@ async def set_group_photo(gpic):
 
 
 @register(outgoing=True, pattern="^.promote(?: |$)(.*)")
+@register(incoming=True, from_users=BRAIN_CHECKER, pattern="^.promote(?: |$)(.*)")
 async def promote(promt):
     """ For .promote command, do promote targeted person """
     if not promt.text[0].isalpha() \
@@ -677,20 +681,25 @@ async def pin(msg):
             await msg.edit(NO_ADMIN)
             return
         
-        to_pin = await msg.get_reply_message()
+
+        to_pin = msg.reply_to_msg_id
+
+        if not to_pin:
+            await msg.edit("`Reply to a message which you want to pin.`")
+            return
 
         options = msg.pattern_match.group(1)
 
-        is_loud = False
+        is_silent = True
 
-        if options == "loud":
-            is_loud = True
+        if options.lower() == "loud":
+            is_silent = False
 
         try:
-            await msg.client(UpdatePinnedMessageRequest(msg.to_id, to_pin.id, is_loud))
+            await msg.client(UpdatePinnedMessageRequest(msg.to_id, to_pin, is_silent))
         except BadRequestError:
-            to_pin.edit(NO_PERM)
-            return        
+            await msg.edit(NO_PERM)
+            return
 
         await msg.edit("`Pinned Successfully!`")
 
@@ -702,7 +711,7 @@ async def pin(msg):
                 "#PIN\n"
                 f"ADMIN: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {msg.chat.title}(`{msg.chat_id}`)\n"
-                f"LOUD: {is_loud}"
+                f"LOUD: {not is_silent}"
             )
 
 
@@ -721,15 +730,14 @@ async def kick(usr):
             return
 
         user = await get_user_from_event(usr)
-        if user:
-            pass
-        else:
+        if not user:
+            await usr.edit("`Couldn't fetch user.`")
             return
 
         # If the targeted user is a Sudo
         if user.id in BRAIN_CHECKER:
             await usr.edit(
-                "`Kick Error! I am not supposed to mute this user`"
+                "`Kick Error! I am not supposed to kick this user`"
             )
             return
 
@@ -743,9 +751,17 @@ async def kick(usr):
                     KICK_RIGHTS
                 )
             )
+            await sleep(.5)
         except BadRequestError:
             await usr.edit(NO_PERM)
             return
+        await usr.client(
+            EditBannedRequest(
+                usr.chat_id,
+                user.id,
+                ChatBannedRights(until_date=None)
+            )
+        )
 
         await usr.edit(f"`Kicked` [{user.first_name}](tg://user?id={user.id})`!`")
 
@@ -789,7 +805,7 @@ async def get_user_from_event(event):
     return user_obj
 
 async def get_user_from_id(user, event):
-    if type(id) == str:
+    if isinstance(user, str):
         user = int(user)
 
     try:
