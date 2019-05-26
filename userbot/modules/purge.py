@@ -10,7 +10,7 @@ from asyncio import sleep
 
 from telethon.errors import rpcbaseerrors
 
-from userbot import LOGGER, LOGGER_GROUP, HELPER
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 
 
@@ -39,9 +39,9 @@ async def fastpurger(purg):
             + " messages. **This auto-generated message shall be self destructed in 2 seconds.**",
         )
 
-        if LOGGER:
+        if BOTLOG:
             await purg.client.send_message(
-                LOGGER_GROUP, "Purge of " +
+                BOTLOG_CHATID, "Purge of " +
                 str(count) + " messages done successfully."
             )
         await sleep(2)
@@ -68,9 +68,9 @@ async def purgeme(delme):
             + str(count)
             + " messages. **This auto-generated message shall be self destructed in 2 seconds.**",
         )
-        if LOGGER:
+        if BOTLOG:
             await delme.client.send_message(
-                LOGGER_GROUP, "Purge of " +
+                BOTLOG_CHATID, "Purge of " +
                 str(count) + " messages done successfully."
             )
         sleep(2)
@@ -87,15 +87,15 @@ async def delete_it(delme):
             try:
                 await msg_src.delete()
                 await delme.delete()
-                if LOGGER:
+                if BOTLOG:
                     await delme.send_message(
-                        LOGGER_GROUP,
+                        BOTLOG_CHATID,
                         "Deletion of message was successful"
                     )
             except rpcbaseerrors.BadRequestError:
-                if LOGGER:
+                if BOTLOG:
                     await delme.send_message(
-                        LOGGER_GROUP,
+                        BOTLOG_CHATID,
                         "Well, I can't delete a message"
                     )
 
@@ -115,8 +115,8 @@ async def editer(edit):
                 await edit.delete()
                 break
             i = i + 1
-        if LOGGER:
-            await edit.send_message(LOGGER_GROUP, "Edit query was executed successfully")
+        if BOTLOG:
+            await edit.send_message(BOTLOG_CHATID, "Edit query was executed successfully")
 
 
 @register(outgoing=True, pattern="^.sd")
@@ -136,30 +136,30 @@ async def selfdestruct(destroy):
         smsg = await destroy.client.send_message(destroy.chat_id, text)
         sleep(counter)
         await smsg.delete()
-        if LOGGER:
-            await destroy.client.send_message(LOGGER_GROUP, "sd query done successfully")
+        if BOTLOG:
+            await destroy.client.send_message(BOTLOG_CHATID, "sd query done successfully")
 
-HELPER.update({
+CMD_HELP.update({
     'purge': '.purge\
         \nUsage: Purges all messages starting from the reply.'
 })
 
-HELPER.update({
+CMD_HELP.update({
     'purgeme': '.purgeme <x>\
         \nUsage: Deletes x amount of your latest messages.'
 })
 
-HELPER.update({
+CMD_HELP.update({
     "del": ".del\
 \nUsage: Deletes the message you replied to."
 })
 
-HELPER.update({
+CMD_HELP.update({
     'editme': ".editme <newmessage>\
 \nUsage: Edits the text you replied to with newtext."
 })
 
-HELPER.update({
+CMD_HELP.update({
     'sd': '.sd <x> <message>\
 \nUsage: Creates a message that selfdestructs in x seconds.\
 \nKeep the seconds under 100 since it puts your bot to sleep.'

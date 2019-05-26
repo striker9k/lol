@@ -6,6 +6,8 @@
 Userbot module which has commands related to and requiring admin privileges to use
 """
 
+from asyncio import sleep
+
 from telethon.errors import (BadRequestError, ChatAdminRequiredError,
                              ImageProcessFailedError, PhotoCropSizeSmallError,
                              UserAdminInvalidError)
@@ -13,17 +15,12 @@ from telethon.errors.rpcerrorlist import UserIdInvalidError
 from telethon.tl.functions.channels import (EditAdminRequest,
                                             EditBannedRequest,
                                             EditPhotoRequest)
-
+from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto)
-from asyncio import sleep
 
-from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 
-from telethon.tl.functions.messages import UpdatePinnedMessageRequest
-
-from userbot import BRAIN_CHECKER, HELPER, LOGGER, LOGGER_GROUP, bot
 from userbot.events import register
 
 # =================== CONSTANT ===================
@@ -155,9 +152,9 @@ async def promote(promt):
             return
 
         # Announce to the logging group if we have promoted successfully
-        if LOGGER:
+        if BOTLOG:
             await promt.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#PROMOTE\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {promt.chat.title}(`{promt.chat_id}`)"
@@ -213,9 +210,9 @@ async def demote(dmod):
         await dmod.edit("`Demoted Successfully!`")
 
         # Announce to the logging group if we have demoted successfully
-        if LOGGER:
+        if BOTLOG:
             await dmod.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#DEMOTE\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {dmod.chat.title}(`{dmod.chat_id}`)"
@@ -278,9 +275,9 @@ async def thanos(bon):
         await bon.edit("`{}` was banned!".format(str(user.id)))
 
         # Announce to the logging group if we have demoted successfully
-        if LOGGER:
+        if BOTLOG:
             await bon.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#BAN\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {bon.chat.title}(`{bon.chat_id}`)"
@@ -320,9 +317,9 @@ async def nothanos(unbon):
             ))
             await unbon.edit("```Unbanned Successfully```")
 
-            if LOGGER:
+            if BOTLOG:
                 await unbon.client.send_message(
-                    LOGGER_GROUP,
+                    BOTLOG_CHATID,
                     "#UNBAN\n"
                     f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                     f"CHAT: {unbon.chat.title}(`{unbon.chat_id}`)"
@@ -375,9 +372,9 @@ async def spider(spdr):
         await spdr.edit("`Safely taped!`")
 
         # Announce to logging group
-        if LOGGER:
+        if BOTLOG:
             await spdr.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#MUTE\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {spdr.chat.title}(`{spdr.chat_id}`)"
@@ -430,9 +427,9 @@ async def unmoot(unmot):
             await unmot.edit("`Uh oh my unmute logic broke!`")
             return
 
-        if LOGGER:
+        if BOTLOG:
             await unmot.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#UNMUTE\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {unmot.chat.title}(`{unmot.chat_id}`)"
@@ -508,9 +505,9 @@ async def ungmoot(un_gmute):
         # Inform about success
         await un_gmute.edit("```Ungmuted Successfully```")
 
-        if LOGGER:
+        if BOTLOG:
             await un_gmute.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#UNGMUTE\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {un_gmute.chat.title}(`{un_gmute.chat_id}`)"
@@ -557,9 +554,9 @@ async def gspider(gspdr):
         await gspdr.delete()
         await gspdr.respond("`Globally taped!`")
 
-        if LOGGER:
+        if BOTLOG:
             await gspdr.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#GMUTE\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {gspdr.chat.title}(`{gspdr.chat_id}`)"
@@ -680,7 +677,6 @@ async def pin(msg):
         if not admin and not creator:
             await msg.edit(NO_ADMIN)
             return
-        
 
         to_pin = msg.reply_to_msg_id
 
@@ -705,9 +701,9 @@ async def pin(msg):
 
         user = await get_user_from_id(msg.from_id, msg)
 
-        if LOGGER:
+        if BOTLOG:
             await msg.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#PIN\n"
                 f"ADMIN: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {msg.chat.title}(`{msg.chat_id}`)\n"
@@ -765,9 +761,9 @@ async def kick(usr):
 
         await usr.edit(f"`Kicked` [{user.first_name}](tg://user?id={user.id})`!`")
 
-        if LOGGER:
+        if BOTLOG:
             await usr.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "#KICK\n"
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {usr.chat.title}(`{usr.chat_id}`)\n"
@@ -816,47 +812,47 @@ async def get_user_from_id(user, event):
 
     return user_obj
 
-        
 
-HELPER.update({
+
+CMD_HELP.update({
     "promote": "Usage: Reply to someone's message with .promote to promote them."
 })
-HELPER.update({
+CMD_HELP.update({
     "ban": "Usage: Reply to someone's message with .ban to ban them."
 })
-HELPER.update({
+CMD_HELP.update({
     "demote": "Usage: Reply to someone's message with .demote to revoke their admin permissions."
 })
-HELPER.update({
+CMD_HELP.update({
     "unban": "Usage: Reply to someone's message with .unban to unban them in this chat."
 })
-HELPER.update({
+CMD_HELP.update({
     "mute": "Usage: Reply to someone's message with .mute to mute them, works on admins too"
 })
-HELPER.update({
+CMD_HELP.update({
     "unmute": "Usage: Reply to someone's message with .unmute to remove them from muted list."
 })
-HELPER.update({
+CMD_HELP.update({
     "gmute": "Usage: Reply to someone's message with .gmute to mute them in all \
 groups you have in common with them."
 })
-HELPER.update({
+CMD_HELP.update({
     "ungmute": "Usage: Reply someone's message with .ungmute to remove them from the gmuted list."
 })
 
-HELPER.update(
+CMD_HELP.update(
     {
         "delusers": "Usage: Searches for deleted accounts in a group."
     }
 )
 
-HELPER.update(
+CMD_HELP.update(
     {
         "delusers clean": "Usage: Searches and removes deleted accounts from the group"
     }
 )
 
-HELPER.update(
+CMD_HELP.update(
     {
         "adminlist" : "Usage: Retrieves all admins in the chat."
     }

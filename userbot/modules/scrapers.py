@@ -27,7 +27,7 @@ from emoji import get_emoji_regexp
 from pytube import YouTube
 from pytube.helpers import safe_filename
 
-from userbot import HELPER, LOGGER, LOGGER_GROUP, YOUTUBE_API_KEY, bot
+from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, YOUTUBE_API_KEY, bot
 from userbot.events import register
 
 LANG = "en"
@@ -83,9 +83,9 @@ async def gsearch(q_event):
         await q_event.edit(
             "**Search Query:**\n`" + match_ + "`\n\n**Result:**\n" + result
         )
-        if LOGGER:
+        if BOTLOG:
             await q_event.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "Google Search query " + match_ + " was executed successfully",
             )
 
@@ -120,9 +120,9 @@ async def wiki(wiki_q):
         await wiki_q.edit(
             "**Search:**\n`" + match + "`\n\n**Result:**\n" + result
         )
-        if LOGGER:
+        if BOTLOG:
             await wiki_q.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 f"Wiki query {match} was executed successfully"
             )
 
@@ -175,9 +175,9 @@ async def urban_dict(ud_e):
                 mean[0]["example"] +
                 "__"
             )
-            if LOGGER:
+            if BOTLOG:
                 await ud_e.client.send_message(
-                    LOGGER_GROUP, "ud query " + query + " executed successfully."
+                    BOTLOG_CHATID, "ud query " + query + " executed successfully."
                 )
         else:
             await ud_e.edit("No result found for **" + query + "**")
@@ -222,9 +222,9 @@ async def text_to_speech(query):
         with open("k.mp3", "r"):
             await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
             os.remove("k.mp3")
-            if LOGGER:
+            if BOTLOG:
                 await query.client.send_message(
-                    LOGGER_GROUP, "tts of " + message + " executed successfully!"
+                    BOTLOG_CHATID, "tts of " + message + " executed successfully!"
                 )
             await query.delete()
 
@@ -257,9 +257,9 @@ async def translateme(trans):
 
         await trans.client.send_message(trans.chat_id, reply_text)
         await trans.delete()
-        if LOGGER:
+        if BOTLOG:
             await trans.client.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 f"Translate query {message} was executed successfully",
             )
 
@@ -270,9 +270,9 @@ async def lang(value):
     if not value.text[0].isalpha() and value.text[0] not in ("/", "#", "@", "!"):
         global LANG
         LANG = value.pattern_match.group(1)
-        if LOGGER:
+        if BOTLOG:
             await value.client.send_message(
-                LOGGER_GROUP, "Default language changed to **" + LANG + "**"
+                BOTLOG_CHATID, "Default language changed to **" + LANG + "**"
             )
             await value.edit("Default language changed to **" + LANG + "**")
 
@@ -415,40 +415,40 @@ def deEmojify(inputString):
     return get_emoji_regexp().sub(u'', inputString)
 
 
-HELPER.update({
+CMD_HELP.update({
     'img': ".img <search_query>\
     \nUsage: Does an image search on Google and shows two images."
 })
-HELPER.update({
+CMD_HELP.update({
     'google': ".google <search_query>\
     \nUsage: Does a search on Google."
 })
-HELPER.update({
+CMD_HELP.update({
     'wiki': ".wiki <search_query>\
     \nUsage: Does a Wikipedia search."
 })
-HELPER.update({
+CMD_HELP.update({
     'ud': ".ud <search_query>\
     \nUsage: Does a search on Urban Dictionary."
 })
-HELPER.update({
+CMD_HELP.update({
     'tts': ".tts <text> or reply to someones text with .trt\
     \nUsage: Translates text to speech for the default language which is set."
 })
-HELPER.update({
+CMD_HELP.update({
     'trt': ".trt <text> or reply to someones text with .trt\
     \nUsage: Translates text to the default language which is set."
 })
-HELPER.update({
+CMD_HELP.update({
     'lang': ".lang <lang>\
     \nUsage: Changes the default language of userbot scrapers used for Google TRT, \
     TTS may not work."
 })
-HELPER.update({
+CMD_HELP.update({
     'yt': ".yt <search_query>\
     \nUsage: Does a YouTube search. "
 })
-HELPER.update({
+CMD_HELP.update({
     'yt_dl': ".yt_dl <url> <quality>(optional)\
     \nUsage: Download videos from YouTube. \
 If no quality is specified, the highest downloadable quality is downloaded. \
