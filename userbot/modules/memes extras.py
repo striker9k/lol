@@ -18,7 +18,7 @@ from telethon.tl.functions.channels import LeaveChannelRequest
 from collections import deque
 
 
-from userbot import LOGGER, LOGGER_GROUP, HELPER, bot
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
 from userbot.events import register
 
 langi = "en"
@@ -161,9 +161,9 @@ async def let_me_google_that_for_you(lmgtfy_q):
             query = query.message
         reply_text = 'http://lmgtfy.com/?s=g&iie=1&q=' + query.replace(" ", "+")
         await lmgtfy_q.edit(reply_text)
-        if LOGGER:
+        if BOTLOG:
             await bot.send_message(
-                LOGGER_GROUP,
+                BOTLOG_CHATID,
                 "LMGTFY query " + query + " was executed successfully",
             )
 
@@ -241,21 +241,21 @@ async def eval(e):
                            RESULT.format(expression, result)
                           )
             
-HELPER.update({
+CMD_HELP.update({
     "IMDB": ".imdb <movie-name> \n Shows movie info ad other stuffs"
 })
-HELPER.update({
+CMD_HELP.update({
     "smk":".smk <text> \n A shit module for ツ , who cares"
 })
-HELPER.update({
+CMD_HELP.update({
     "repeat": ".repeat <no.> <text> \n geg module ask him"
 })
-HELPER.update({
+CMD_HELP.update({
     "lfy":".lfy <text> \n geg module ask him lol"
 })
-HELPER.update({
+CMD_HELP.update({
     "moon":"shows moon rotating , boredom stuffs of yasir"
 })
-HELPER.update({
+CMD_HELP.update({
     "leave":"lazy ? just use thiZ"
 })
