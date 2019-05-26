@@ -118,8 +118,8 @@ async def amireallyalive(alive):
             "`"
             "Ya BOi .. I'm running 😜 \n\n"
             f"Telethon version: {version.__version__} \n"
-            f"Python: {python_version()} \n"
-            f"User: {DEFAULTUSER}"
+            f"Python:           {python_version()} \n"
+            f"User:             {DEFAULTUSER}"
             "`"
             )
 

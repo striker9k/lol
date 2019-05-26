@@ -1,7 +1,7 @@
 import aiohttp
 from telethon import events
 
-from userbot import bot
+from userbot import bot, CMD_HELP
 
 @bot.on(events.NewMessage(outgoing=True, pattern=r"^\.git (.*)"))
 async def github(e):
@@ -47,3 +47,7 @@ Created at: `{created_at}`
                     REPLY += f"[{result[nr].get('name', None)}]({result[nr].get('html_url', None)})\n"
 
                 await e.edit(REPLY)
+
+CMD_HELP.update({
+    "github": ".github <github username> \n gives you the info about given github account including repo names"
+})

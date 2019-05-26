@@ -45,6 +45,7 @@ async def welcome_mute(welcm):
                 message_date = message.date
 
                 if message_date < join_time:
+
                     continue  # The message was sent before the user joined, thus ignore it
 
                 # DEBUGGING. LEAVING IT HERE FOR SOME TIME ###
