@@ -23,7 +23,7 @@ async def gen_chlog(repo, diff):
 
 
 async def is_off_br(br):
-    off_br = ['master', 'staging', 'redis']
+    off_br = ['staging']
     for k in off_br:
         if k == br:
             return 1
@@ -34,7 +34,7 @@ async def is_off_br(br):
 async def upstream(ups):
     await ups.edit("`Checking for updates, please wait....`")
     conf = ups.pattern_match.group(1)
-    off_repo = 'https://github.com/Thagoo/Tbot2.git'
+    off_repo = 'https://github.com/Ayushraj21/Tbot.git'
 
     try:
         txt = "`Oops.. Updater cannot continue due to some problems occured`\n\n**LOGTRACE:**\n"
