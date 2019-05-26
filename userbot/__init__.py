@@ -54,11 +54,11 @@ STRING_SESSION = os.environ.get("STRING_SESSION", None)
 
 API_HASH = os.environ.get("API_HASH", None)
 
-LOGGER_GROUP = int(os.environ.get("LOGGER_GROUP", "0"))
+BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID", "0"))
 
 
-LOGGER = sb(os.environ.get(
-    "LOGGER", "False"
+BOTLOG = sb(os.environ.get(
+    "BOTLOG", "False"
 ))
 
 PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "False"))
